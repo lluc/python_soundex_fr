@@ -73,16 +73,16 @@ class soundex_fr:
             ['PH','F']
         ]
 
-        self.conv_v_in = [ '/E?(AU)/', '/([EA])?[UI]([NM])([^EAIOUY]|$)/',
-            '/[AE]O?[NM]([^AEIOUY]|$)/',
-            '/[EA][IY]([NM]?[^NM]|$)/',
-            '/(^|[^OEUIA])(OEU|OE|EU)([^OEUIA]|$)/',
-            '/OI/',
-            '/(ILLE?|I)/', '/O(U|W)/', '/O[NM]($|[^EAOUIY])/', '/(SC|S|C)H/',
-            '/([^AEIOUY1])[^AEIOUYLKTPNR]([UAO])([^AEIOUY])/',
-            '/([^AEIOUY]|^)([AUO])[^AEIOUYLKTP]([^AEIOUY1])/', '/^KN/', 
-            '/^PF/', '/C([^AEIOUY]|$)/',  '/E(Z|R)$/',
-            '/C/', '/Z$/', '/(?<!^)Z+/', '/H/', '/W/']
+        self.conv_v_in = [ 'E?(AU)', '([EA])?[UI]([NM])([^EAIOUY]|$)',
+            '[AE]O?[NM]([^AEIOUY]|$)',
+            '[EA][IY]([NM]?[^NM]|$)',
+            '(^|[^OEUIA])(OEU|OE|EU)([^OEUIA]|$)',
+            'OI',
+            '(ILLE?|I)', 'O(U|W)', 'O[NM]($|[^EAOUIY])', '(SC|S|C)H',
+            '([^AEIOUY1])[^AEIOUYLKTPNRD]([UAO])([^AEIOUY])',
+            '([^AEIOUY]|^)([AUO])[^AEIOUYLKTPR]([^AEIOUY1])', '^KN', 
+            '^PF', 'C([^AEIOUY]|$)',  'E(Z|R)$',
+            'C', 'Z$', '(?<!^)Z+', 'H', 'W']
 
         self.conv_v_out = [ 'O', '1\\3', 'A\\1',
             'E\\1', '\\1E\\3', 'O',
@@ -135,3 +135,9 @@ class soundex_fr:
 if __name__ == '__main__' :
     mot = soundex_fr()
     mot.analyse("C'est un essai de phonétique, efficace")
+    mot.analyse("L'Océane")
+    mot.analyse("L'Osseane")
+    mot.analyse("Lausanne")
+    mot.analyse("Bordeaux")
+    mot.analyse("bordo")
+    mot.analyse("baurdeau")
