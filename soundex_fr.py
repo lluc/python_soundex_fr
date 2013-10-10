@@ -28,25 +28,10 @@ import re
 from string import maketrans
 
 class soundex_fr:
-    
 
     def __init__(self) :
         
         # Déclaration des dictionnaires et tableaux
-        self.accent = {
-            'É':'E', 'È':'E', 'Ë':'E', 'Ê':'E',
-            'Á':'A', 'À' : 'A', 'Ä' : 'A', 'Â' : 'A', 'Å' : 'A', 'Ã' : 'A',
-            'Ï' : 'I', 'Î' : 'I', 'Ì' : 'I', 'Í' : 'I',
-            'Ô' : 'O', 'Ö' : 'O', 'Ò' : 'O', 'Ó' : 'O', 'Õ' : 'O', 'Ø' : 'O',
-            'Ú' : 'U', 'Ù' : 'U', 'Û' : 'U', 'Ü' : 'U',
-            'Ç' : 'C', 'Ñ' : 'N', 'Ç' : 'S', '¿' : 'E',
-            'é' : 'e', 'è' : 'e', 'ë' : 'e', 'ê' : 'e',
-            'á' : 'a', 'à' : 'a', 'ä' : 'a', 'â' : 'a', 'å' : 'a', 'ã' : 'a',
-            'ï' : 'i', 'î' : 'i', 'ì' : 'i', 'í' : 'i',
-            'ô' : 'o', 'ö' : 'o', 'ò' : 'o', 'ó' : 'o', 'õ' : 'o', 'ø' : 'o',
-            'ú' : 'u', 'ù' : 'u', 'û' : 'u', 'ü' : 'u',
-            'ç' : 'c', 'ñ' : 'n'
-        }
         
         accents_in =  u'áàäâåãÁÀÄÂÅÃéèëêÉÈËÊïîìíÏÎÌÍôöòóõøÔÖÒÓÕØúùûüÚÙÛÜçÇñÑ'.encode('latin1')
         accents_out =  "aaaaaaAAAAAAeeeeEEEEiiiiIIIIooooooOOOOOOuuuuUUUUcCnN"
@@ -123,21 +108,9 @@ class soundex_fr:
         p = re.compile('L?[TDX]?S?$')
         mot = p.sub('', mot)
         
-        # Supprimer les A,E,Y qui sont en position intermédiaire
-        p = re.compile('(?!^)Y([^AEOU]|$)')
-        mot = p.sub('\g<1>', mot)
-        p = re.compile('(?!^)[EA]')
-        mot = p.sub('', mot)
-        
-        print mot
+        return mot
 
 
 if __name__ == '__main__' :
     mot = soundex_fr()
-    mot.analyse("C'est un essai de phonétique, efficace")
-    mot.analyse("L'Océane")
-    mot.analyse("L'Osseane")
-    mot.analyse("Lausanne")
-    mot.analyse("Bordeaux")
-    mot.analyse("bordo")
-    mot.analyse("baurdeau")
+    print mot.analyse("C'est un essai de phonétique, efficace")
