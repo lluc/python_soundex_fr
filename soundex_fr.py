@@ -33,64 +33,111 @@ class soundex_fr:
         
         # Déclaration des dictionnaires et tableaux
         
-        accents_in =  u'áàäâåãÁÀÄÂÅÃéèëêÉÈËÊïîìíÏÎÌÍôöòóõøÔÖÒÓÕØúùûüÚÙÛÜçÇñÑ'.encode('latin1')
-        accents_out =  "aaaaaaAAAAAAeeeeEEEEiiiiIIIIooooooOOOOOOuuuuUUUUcCnN"
+        accents_in = 'áàäâåãÁÀÄÂÅÃéèëêÉÈËÊïîìíÏÎÌÍôöòóõøÔÖÒÓÕØúùûüÚÙÛÜçÇñÑ'
+        accents_out = ' a a a a a a A A A A A A-e-e-e-e E E E E i i i i I I I I o o o o o o O O O O O O u u u u U U U U s S n-N'
         self.accents = maketrans(accents_in,accents_out)
 
         self.conv_gu = [
             ['GUI','KI'],
             ['GUE','KE'],
+            ['GR','KR'],
             ['GA','KA'],
             ['GO','KO'],
             ['GU','K'],
+            ['GH','K'],
+            ['GE', 'J'],
             ['SCI','SI'],
             ['SCE','SE'],
-            ['SC','SK'],
             ['CA','KA'],
+            ['CL','KL'],
             ['CO','KO'],
+            ['CR','KR'],
+            ['CT','KT'],
             ['CU','KU'],
             ['QU','K'],
             ['Q','K'],
             ['CC','K'],
             ['CK','K'],
             ['G','J'],
-            ['ST','T'],
+            ['EST','ET'],
             ['PH','F']
         ]
 
-        self.conv_v_in = [ 'E?(AU)', '([EA])?[UI]([NM])([^EAIOUY]|$)',
-            '[AE]O?[NM]([^AEIOUY]|$)',
+        # Motifs en entrée
+        self.conv_v_in = [ 'E?(AU)',
+            '([EA])?[UI]([NM])([^EAIOUY]|$)',
+            '[AE]O?[M]([^AEIOUY1]|$)',
             '[EA][IY]([NM]?[^NM]|$)',
             '(^|[^OEUIA])(OEU|OE|EU)([^OEUIA]|$)',
-            'OI',
-            '(ILLE?|I)', 'O(U|W)', 'O[NM]($|[^EAOUIY])', '(SC|S|C)H',
-            '([^AEIOUY1])[^AEIOUYLKTPNRD]([UAO])([^AEIOUY])',
-            '([^AEIOUY]|^)([AUO])[^AEIOUYLKTPR]([^AEIOUY1])', '^KN', 
-            '^PF', 'C([^AEIOUY]|$)',  'E(Z|R)$',
-            'C', 'Z$', '(?<!^)Z+', 'H', 'W']
-
-        self.conv_v_out = [ 'O', '1\\3', 'A\\1',
-            'E\\1', '\\1E\\3', 'O',
-            'Y', 'U', 'O\\1', '9',
-            '\\1\\2\\3', '\\1\\2\\3', 'N',
-            'F', 'K\\1', 'E',
+            '(OI|OY)',
+            '(ILLE?|I)',
+            'O(U|W)',
+            'O[NM]($|[^EAOUIY])',
+            '(SC|S|C)H',
+            '(SC)([^EAOUIY])',
+            '([^AEIOUY10])[^AEIOUYLKTPMNRD9ZBJFWVS]([UAO])([^AEIOUY])',
+            '([^AEIOUY]|^)([AUO])[^AEIOUYLKTBPRSJMF]([^AEIOUY10])',
+            '^KN', 
+            '^PF',
+            'C([^AEIOUY]|$)',
+            'E(Z|R)$',
+            'C', 'Z$', 'Z', 'H', 'W']
+        
+        # Motifs en sortie (substitution)
+        self.conv_v_out = [ 'O',
+            '1\\3',
+            'A\\1',
+            'E\\1',
+            '\\1E\\3',
+            '2',
+            'Y',
+            'U',
+            '0\\1',
+            '9',
+            'SK',
+            '\\1\\2\\3',
+            '\\1\\2\\3',
+            'N',
+            'F',
+            'K\\1',
+            'E',
             'S', 'SE', 'S', '', 'V']
     
     def analyse(self,mot) :
         if mot=="" :
             return('')
-        mot = mot.decode('utf-8').encode('latin1')
+        mot = mot.encode('latin-1')
         
         # Suppression des accents
         mot = mot.translate(self.accents)
-        
+
         # Mettre en majuscule
         mot = mot.upper()
+       
+        # S muets
+        p= re.compile('([A|E|I|O|U|Y|L|M|R|T])S(?:\s+|$)')
+        mot = p.sub('\g<1>',mot)
+        
+        # T muets
+        p= re.compile('([ON|US|E])T(?:\s+|$)')
+        mot = p.sub('\g<1>',mot)
+        
+        # D muets
+        p= re.compile('([AN|R])D(?:\s+|$)')
+        mot = p.sub('\g<1>',mot)
+        
+        # P muets
+        p= re.compile('([M])P(?:\s+|$)')
+        mot = p.sub('\g<1>',mot)
+        
+        # X muets
+        p= re.compile('([OI])X(?:\s+|$)')
+        mot = p.sub('\g<1>',mot)
         
         # On ne garde que les lettres
         p = re.compile('[^A-Z]')
         mot = p.sub('',mot)
-        
+
         # Remplacer les consonnances primaires
         for gu in self.conv_gu :
             mot = mot.replace(gu[0],gu[1])
@@ -99,12 +146,13 @@ class soundex_fr:
         p = re.compile('(.)\\1')
         mot = p.sub('\g<1>',mot)
         
+        
         # Remplacer les voyelles
         for i in range(len(self.conv_v_in)) :
             p = re.compile(self.conv_v_in[i])
             mot = p.sub(self.conv_v_out[i], mot)
-        
-        # Supprimer les terminaisons T,D,X,S
+            #print mot 
+        # Supprimer les terminaisons T,D,X
         p = re.compile('L?[TDX]?S?$')
         mot = p.sub('', mot)
         
@@ -113,4 +161,4 @@ class soundex_fr:
 
 if __name__ == '__main__' :
     mot = soundex_fr()
-    print mot.analyse("C'est un essai de phonétique, efficace")
+    print mot.analyse("C'est un essai de phonétique, efficace".decode('latin-1') )

@@ -4,6 +4,8 @@
 import sys
 import os
 
+import unittest
+
 dirname = os.path.dirname(__file__)
 if dirname=='' :
     dirname='.'
@@ -16,21 +18,65 @@ if updir not in sys.path:
 
 from soundex_fr import soundex_fr
 
-s = soundex_fr()
 
-def test_analyse():
-    assert s.analyse("Bordeaux") == "BORDO"
-    assert s.analyse("Bordeau") == "BORDO"
-    assert s.analyse("Baurdox") == "BORDO"
-    assert s.analyse("Bourges") == "BURJE"
-    assert s.analyse("Villiers") == "VYLYER"
-    assert s.analyse("Villers") == "VYLER"
-    assert s.analyse("Valières") == "VALYERE"
-    assert s.analyse("Tours") == "TUR"
-    assert s.analyse("Jouy") == "JUY"
-    assert s.analyse("jouais") == "JUE"
-    assert s.analyse("Joué-les-Tours") == "JUELETUR"
-    assert s.analyse("Été") == "ETE"
-    assert s.analyse("Étretat") == "ETRETA"
-    assert s.analyse("Éthretta") == "ETRETA"
-    
+
+class TestFonctionAnalyse(unittest.TestCase):
+    valeurs = (
+        ("Bordeaux","BORDO"),
+        ("Bordeau","BORDO"),
+        ("Baurdox","BORDO"),
+        ("Bourges","BURJ"),
+        ("Villiers","VYLYE"),
+        ("Villers","VYLE"),
+        ("Valières","VALYERE"),
+        ("Tours","TUR"),
+        ("Jouy","JUY"),
+        ("jouais","JUE"),
+        ("Joué-les-Tours","JUELETUR"),
+        ("Été","ETE"),
+        ("Étretat","ETRETA"),
+        ("Éthretta","ETRETA"),
+        ("Allée des Granges Saint-Martin","ALEDEKRAJS1TMART1"),
+        ("Rue Honoré de Balzac","RUEONOREDEBALSAK"),
+        ("Rue Emmanuel Chabrier","RUEMANUEL9ABRYE"),
+        ("Rue Barbès","RUEBARBE"),
+        ("Rue Camille Desmoulins","RUEKAMYLEDESMUL1"),
+        ("Allée des Sables","ALEDESABLE"),
+        ("Rue du Docteur Herpin","RUEDUDOKTERERP1"),
+        ("Rue Saint-Just","RUES1TJU"),
+        ("Rue François Clouet","RUEFRAS2KLUE"),
+        ("Rue du Docteur Fournier","RUEDUDOKTERFURNYE"),
+        ("Rue Justin","RUEJUST1"),
+        ("Rue Pasteur","RUEPASTE"),
+        ("Rue Désiré Lecomte","RUEDESYRELEK0TE"),
+        ("Boulevard Richard Wagner","BULEVARY9ARVAJNE"),
+        ("Avenue de Grammont","AVENUEDEKRAM0"),
+        ("Avenue du Général de Gaulle","AVENUEDUJNERALDEKOLE"),
+        ("Champ Joli","9AJOLY"),
+        ("Rue Jules Taschereau","RUEJULETA9ERO"),
+        ("Groupe scolaire","KRUPESKOLERE"),
+        ("Rue de Buffon","RUEDEBUF0"),
+        ("Rue des Ursulines","RUEDERSULYNE"),
+        ("Rue Nungesser et Coli","RUEN1JSEREKOLY"),
+        ("Rue de Montbazon","RUEDEM0TBAS0"),
+        ("Le Grand Passage","LEKRAPASAJ"),
+        ("Rue du Chemin de Fer","RUEDU9EM1DEFE"),
+        ("Rue Manceau","RUEMASO"),
+        ("Rue de la Croix Nourry","RUEDELAKR2NURY"),
+        ("Pierre Armand Colin","PYEREARMAKOL1"),
+        ("Compagnons d'Emmaüs","K0PAJN0SDEMO"),
+        ("du Pont Volant","DUP0VOLAN"),
+        ("Villiers-sur-Loir","VYLYERSURL2R"),
+        ("Rue du Chemin Vert","RUEDU9EM1VER"),
+    )
+
+    def test_analyse(self):
+        s = soundex_fr()
+        for entree, sortie in self.valeurs :
+            phonetique = s.analyse( entree.decode('latin-1') )
+            self.assertEqual( phonetique, sortie )
+            
+        
+
+if __name__ == '__main__':
+    unittest.main()

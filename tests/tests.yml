@@ -1,0 +1,13 @@
+"test1":
+    entrée : Bordeaux
+    sortie : BORDO
+    
+"test2":
+    entrée : Bordeau
+    sortie : BORDO
+    commentaire: le X est muet
+
+"test3":
+    entrée : Baurdox
+    sortie : BORDO
+    commentaire: orthographe aberrante, le X est muet
