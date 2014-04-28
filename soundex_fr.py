@@ -106,7 +106,8 @@ class soundex_fr:
     def analyse(self,mot) :
         if mot=="" :
             return('')
-        mot = mot.encode('latin-1')
+
+        mot = mot.decode('latin-1').encode('latin-1')
         
         # Suppression des accents
         mot = mot.translate(self.accents)
@@ -161,4 +162,4 @@ class soundex_fr:
 
 if __name__ == '__main__' :
     mot = soundex_fr()
-    print mot.analyse("C'est un essai de phonétique, efficace".decode('latin-1') )
+    print mot.analyse("C'est un essai de phonétique, efficace" )
