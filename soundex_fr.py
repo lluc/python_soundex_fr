@@ -163,3 +163,5 @@ class soundex_fr:
 if __name__ == '__main__' :
     mot = soundex_fr()
     print mot.analyse("C'est un essai de phonétique, efficace" )
+    print mot.analyse( "rue de Saintes")
+    print mot.analyse( "île simon")
