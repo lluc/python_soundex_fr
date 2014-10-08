@@ -109,6 +109,10 @@ class soundex_fr:
 
         mot = mot.decode('latin-1').encode('latin-1')
         
+        # Suppression des signes de ponctuation
+        p= re.compile('([-|.|,|;|?])')
+        mot = p.sub(' ',mot)
+        
         # Suppression des accents
         mot = mot.translate(self.accents)
 
@@ -165,3 +169,6 @@ if __name__ == '__main__' :
     print mot.analyse("C'est un essai de phonétique, efficace" )
     print mot.analyse( "rue de Saintes")
     print mot.analyse( "île simon")
+    print mot.analyse( "lutéce saint-cyr-sur-loire" )
+    print mot.analyse( "saint-jean")
+    print mot.analyse( "saint jean")
