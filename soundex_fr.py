@@ -65,6 +65,7 @@ class soundex_fr:
 
         # Motifs en entrée
         self.conv_v_in = [ 'E?(AU)',
+            'E(Z|R)$',
             '([EA])?[UI]([NM])([^EAIOUY]|$)',
             '[AE]O?[M]([^AEIOUY1]|$)',
             '[EA][IY]([NM]?[^NM]|$)',
@@ -80,11 +81,11 @@ class soundex_fr:
             '^KN', 
             '^PF',
             'C([^AEIOUY]|$)',
-            'E(Z|R)$',
             'C', 'Z$', 'Z', 'H', 'W']
         
         # Motifs en sortie (substitution)
         self.conv_v_out = [ 'O',
+            'E',
             '1\\3',
             'A\\1',
             'E\\1',
@@ -100,7 +101,6 @@ class soundex_fr:
             'N',
             'F',
             'K\\1',
-            'E',
             'S', 'SE', 'S', '', 'V']
     
     def analyse(self,mot) :

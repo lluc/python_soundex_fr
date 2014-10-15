@@ -47,7 +47,7 @@ class TestFonctionAnalyse(unittest.TestCase):
         (u"Rue François Clouet","RUEFRAS2KLUE"),
         (u"Rue du Docteur Fournier","RUEDUDOKTERFURNYE"),
         (u"Rue Justin","RUEJUST1"),
-        (u"Rue Pasteur","RUEPASTE"),
+        (u"Rue Pasteur","RUEPASTER"),
         (u"Rue Désiré Lecomte","RUEDESYRELEK0TE"),
         (u"Boulevard Richard Wagner","BULEVARY9ARVAJNE"),
         (u"Avenue de Grammont","AVENUEDEKRAM0"),
@@ -68,6 +68,10 @@ class TestFonctionAnalyse(unittest.TestCase):
         (u"du Pont Volant","DUP0VOLAN"),
         (u"Villiers-sur-Loir","VYLYERSURL2R"),
         (u"Rue du Chemin Vert","RUEDU9EM1VER"),
+        (u"vaire","VERE"),
+        (u"Colbair","KOLBER"),
+        (u"Colbert","KOLBER"),
+        (u"Colber","KOLBE"),
     )
 
     def test_analyse(self):
